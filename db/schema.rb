@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_005844) do
+ActiveRecord::Schema.define(version: 2021_02_26_010129) do
 
   create_table "developers", force: :cascade do |t|
     t.string "name"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 2021_02_26_005844) do
     t.string "city"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "game_developers", force: :cascade do |t|
+    t.integer "game_id", null: false
+    t.integer "developer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["developer_id"], name: "index_game_developers_on_developer_id"
+    t.index ["game_id"], name: "index_game_developers_on_game_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -30,4 +39,6 @@ ActiveRecord::Schema.define(version: 2021_02_26_005844) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "game_developers", "developers"
+  add_foreign_key "game_developers", "games"
 end
