@@ -1,0 +1,23 @@
+<h1><%= @game.name %></h1>
+
+<p><%= @game.description %></p>
+
+<h1>Developers</h1>
+<ul>
+  <% @game.game_developers.each do |game_developer| %>
+    <% developer = game_developer.developer %>
+    <li>
+      <%= link_to developer.name, developer %>
+    </li>
+  <% end %>
+</ul>
+
+<h1>Platforms</h1>
+<ul>
+  <% @game.game_platforms.each do |game_platform| %>
+    <% platform = game_platform.platform %>
+    <li>
+      <%= link_to platform.name, platform %>
+    </li>
+  <% end %>
+</ul>

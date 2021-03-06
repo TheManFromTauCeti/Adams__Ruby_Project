@@ -28,21 +28,30 @@ games["results"].each do |g|
   )
 
   new_developers = game["developers"]
-  unless new_developers.nil?
-    new_developers.each do |d|
-      developer = (api_fetch("#{d['api_detail_url']}#{api_key}#{json_format}"))["results"]
-      new_game.developers.find_or_create_by(
-        name:        developer["name"],
-        description: developer["deck"],
-        country:     developer["country"],
-        city:        developer["city"]
-      )
-    end
+  # unless new_developers.nil?
+  new_developers&.each do |d|
+    developer = (api_fetch("#{d['api_detail_url']}#{api_key}#{json_format}"))["results"]
+    new_game.developers.find_or_create_by(
+      name:        developer["name"],
+      description: developer["deck"],
+      country:     developer["country"],
+      city:        developer["city"]
+    )
   end
+  # end
 
   game["platforms"].each do |console|
+    if Platform.find_by(name: console["name"]).present?
+      platform = Platform.find_by(name: console["name"])
+
+      GamePlatform.create(
+        game_id:     new_game.id,
+        platform_id: platform.id
+      )
+    end
+
     platform = (api_fetch("#{console['api_detail_url']}#{api_key}#{json_format}"))["results"]
-    new_game.platforms.find_or_create_by(
+    new_game.platforms.create(
       name:         platform["name"],
       description:  platform["deck"],
       install_base: platform["install_base"]
@@ -60,4 +69,14 @@ end
 #       # install_base:   platform["install_base"]
 #     )
 #   end
+# end
+
+
+# game["platforms"].each do |console|
+#   platform = (api_fetch("#{console['api_detail_url']}#{api_key}#{json_format}"))["results"]
+#   new_game.platforms.find_or_create_by(
+#     name:         platform["name"],
+#     description:  platform["deck"],
+#     install_base: platform["install_base"]
+#   )
 # end
