@@ -1,0 +1,14 @@
+<h1><%= @platform.name %></h1>
+
+<p><%= @platform.description %></p>
+
+<p><%= @platform.name %> has <%= @platform.game_platforms.count %> games <p>
+
+<ul>
+  <% @platform.game_platforms.each do |game_platform| %>
+    <% game = game_platform.game %>
+    <li>
+      <%= link_to game.name, game %>
+    </li>
+  <% end %>
+</ul>
