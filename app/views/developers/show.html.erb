@@ -1,0 +1,14 @@
+<h1><%= @developer.name %></h1>
+
+<p><%= @developer.description %></p>
+
+<p><%= @developer.name %> developed <%= @developer.game_developers.count %> games <p>
+
+<ul>
+  <% @developer.game_developers.each do |game_developer| %>
+    <% game = game_developer.game %>
+    <li>
+      <%= link_to game.name, game %>
+    </li>
+  <% end %>
+</ul>
